@@ -1,8 +1,8 @@
 import './index.css'
+
 import {v4 as uuidv4} from 'uuid'
 import {Component} from 'react'
 import VaccinationCoverage from '../VaccinationCoverage'
-import {BarCharts} from 'react-recharts'
 
 class CowinDashboard extends Component {
   state = {data: {}}
@@ -40,17 +40,15 @@ class CowinDashboard extends Component {
             src="https://assets.ccbp.in/frontend/react-js/cowin-logo.png"
             alt="website logo"
           />
+
           <p>Co-Win</p>
         </div>
         <h1>Cowin Vaccination in india</h1>
         <p className="p">Vaccination Coverage</p>
+
         <ul>
           {data.map(each => (
-            <VaccinationCoverage
-              vaccinInfo={each}
-              key={each.id}
-              chart={<BarCharts />}
-            />
+            <VaccinationCoverage vaccinInfo={each} key={each.id} />
           ))}
         </ul>
       </div>
