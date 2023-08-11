@@ -10,7 +10,7 @@ import {
 
 const VaccinationCoverage = props => {
   const {vaccinInfo} = props
-  const {id, dose1, dose2, vaccinationDate} = vaccinInfo
+  const {dose1, dose2, vaccinationDate} = vaccinInfo
 
   const DataFormatter = number => {
     if (number > 1000) {
@@ -22,7 +22,10 @@ const VaccinationCoverage = props => {
     <div>
       <ResponsiveContainer width="100$" height={500} />
       <BarChart data={vaccinInfo} margin={{top: 5}}>
-        <XAxis dataKey={id} tick={{stroke: 'gray', strokeWidth: 1}} />
+        <XAxis
+          dataKey={vaccinationDate}
+          tick={{stroke: 'gray', strokeWidth: 1}}
+        />
         <YAxis
           tickFormatter={DataFormatter}
           tick={{stroke: 'gray', strokeWidth: 0}}

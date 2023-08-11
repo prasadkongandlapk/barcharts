@@ -1,11 +1,10 @@
 import './index.css'
-
-import {v4 as uuidv4} from 'uuid'
+import Loader from 'react-loader-spinner'
 import {Component} from 'react'
 import VaccinationCoverage from '../VaccinationCoverage'
 
 class CowinDashboard extends Component {
-  state = {data: {}}
+  state = {data: {}, isLoading: true}
 
   componentDidMount() {
     this.getData()
@@ -25,13 +24,12 @@ class CowinDashboard extends Component {
       vaccinationDate: each.vaccination_date,
       dose1: each.dose_1,
       dose2: each.dose_2,
-      id: uuidv4(),
     }))
-    this.setState({data: filteredData})
+    this.setState({data: filteredData, isLoading: false})
   }
 
   render() {
-    const {data} = this.state
+    const {data, isLoading} = this.state
     return (
       <div className="bg">
         <div className="fkljads">
@@ -45,12 +43,20 @@ class CowinDashboard extends Component {
         </div>
         <h1>Cowin Vaccination in india</h1>
         <p className="p">Vaccination Coverage</p>
-
-        <ul>
-          {data.map(each => (
-            <VaccinationCoverage vaccinInfo={each} key={each.id} />
-          ))}
-        </ul>
+        {isLoading ? (
+          <div className="loader">
+            <Loader type="ThreeDots" />
+          </div>
+        ) : (
+          <ul>
+            {data.map(each => (
+              <VaccinationCoverage
+                vaccinInfo={each}
+                key={each.vaccinationDate}
+              />
+            ))}
+          </ul>
+        )}
       </div>
     )
   }
