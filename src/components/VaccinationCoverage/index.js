@@ -1,16 +1,8 @@
 import './index.css'
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  Legend,
-  ResponsiveContainer,
-} from 'recharts'
+import {BarChart, Bar, XAxis, YAxis, Legend} from 'recharts'
 
 const VaccinationCoverage = props => {
-  const {vaccinInfo} = props
-  const {dose1, dose2, vaccinationDate} = vaccinInfo
+  const {vaccinData} = props
 
   const DataFormatter = number => {
     if (number > 1000) {
@@ -20,10 +12,9 @@ const VaccinationCoverage = props => {
   }
   return (
     <div>
-      <ResponsiveContainer width="100$" height={500} />
-      <BarChart data={vaccinInfo} margin={{top: 5}}>
+      <BarChart data={vaccinData} width={1000} height={300} margin={{top: 5}}>
         <XAxis
-          dataKey={vaccinationDate}
+          dataKey="vaccination_date"
           tick={{stroke: 'gray', strokeWidth: 1}}
         />
         <YAxis
@@ -31,8 +22,8 @@ const VaccinationCoverage = props => {
           tick={{stroke: 'gray', strokeWidth: 0}}
         />
         <Legend wrapperStyle={{padding: 30}} />
-        <Bar dataKey={dose1} name={dose1} fill={dose1} barSize="20%" />
-        <Bar dataKey={dose2} name={dose2} fill={dose2} barSize="20%" />
+        <Bar dataKey="dose1" name="dose1" fill="#1f77b4" barSize="20%" />
+        <Bar dataKey="dose2" name="dose2" fill="#fd7f0e" barSize="20%" />
       </BarChart>
     </div>
   )

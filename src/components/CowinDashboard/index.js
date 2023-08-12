@@ -2,9 +2,16 @@ import './index.css'
 import Loader from 'react-loader-spinner'
 import {Component} from 'react'
 import VaccinationCoverage from '../VaccinationCoverage'
+import VaccinationByAge from '../VaccinationByAge'
+import VaccinationByGender from '../VaccinationByGender'
 
 class CowinDashboard extends Component {
-  state = {data: {}, isLoading: true}
+  state = {
+    vaccinCoverage: '',
+    vaccinByAge: '',
+    vaccinByGender: '',
+    isLoading: true,
+  }
 
   componentDidMount() {
     this.getData()
@@ -19,17 +26,20 @@ class CowinDashboard extends Component {
 
     const response = await fetch(url, options)
     const data = await response.json()
-    const last7Days = data.last_7_days_vaccination
-    const filteredData = last7Days.map(each => ({
-      vaccinationDate: each.vaccination_date,
-      dose1: each.dose_1,
-      dose2: each.dose_2,
-    }))
-    this.setState({data: filteredData, isLoading: false})
+    const vaccinationCoverage = data.last_7_days_vaccination
+    const vaccinationByAge = data.vaccination_by_age
+    const vaccinationByGender = data.vaccination_by_gender
+
+    this.setState({
+      vaccinCoverage: vaccinationCoverage,
+      vaccinByAge: vaccinationByAge,
+      vaccinByGender: vaccinationByGender,
+      isLoading: false,
+    })
   }
 
   render() {
-    const {data, isLoading} = this.state
+    const {vaccinByAge, vaccinByGender, vaccinCoverage, isLoading} = this.state
     return (
       <div className="bg">
         <div className="fkljads">
@@ -49,16 +59,14 @@ class CowinDashboard extends Component {
           </div>
         ) : (
           <ul>
-            {data.map(each => (
-              <VaccinationCoverage
-                vaccinInfo={each}
-                key={each.vaccinationDate}
-              />
-            ))}
+            <VaccinationCoverage vaccinData={vaccinCoverage} />
+            <VaccinationByAge ageData={vaccinByAge} />
+            <VaccinationByGender genderData={vaccinByGender} />
           </ul>
         )}
       </div>
     )
   }
 }
+
 export default CowinDashboard
