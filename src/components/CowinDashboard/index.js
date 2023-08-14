@@ -58,11 +58,11 @@ class CowinDashboard extends Component {
             <Loader type="ThreeDots" />
           </div>
         ) : (
-          <ul>
+          <div>
             <VaccinationCoverage vaccinData={vaccinCoverage} />
             <VaccinationByAge ageData={vaccinByAge} />
             <VaccinationByGender genderData={vaccinByGender} />
-          </ul>
+          </div>
         )}
       </div>
     )
