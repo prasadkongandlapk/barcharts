@@ -23,6 +23,12 @@ h1 {
   align-items: center;
   color: white;
 }
+.failure {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
 .logo-img {
   height: 20px;
   width: 20px;

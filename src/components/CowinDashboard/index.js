@@ -5,12 +5,17 @@ import VaccinationCoverage from '../VaccinationCoverage'
 import VaccinationByAge from '../VaccinationByAge'
 import VaccinationByGender from '../VaccinationByGender'
 
+const status = {
+  inProgress: 'LOADING',
+  failure: 'FAILURE',
+  success: 'SUCCESS',
+}
 class CowinDashboard extends Component {
   state = {
     vaccinCoverage: '',
     vaccinByAge: '',
     vaccinByGender: '',
-    isLoading: true,
+    apiStatus: status.inProgress,
   }
 
   componentDidMount() {
@@ -18,28 +23,71 @@ class CowinDashboard extends Component {
   }
 
   getData = async () => {
-    const url = 'https://apis.ccbp.in/covid-vaccination-data'
+    const vaccinationDataApiUrl = 'https://apis.ccbp.in/covid-vaccination-data'
 
     const options = {
       method: 'GET',
     }
 
-    const response = await fetch(url, options)
+    const response = await fetch(vaccinationDataApiUrl, options)
     const data = await response.json()
     const vaccinationCoverage = data.last_7_days_vaccination
     const vaccinationByAge = data.vaccination_by_age
     const vaccinationByGender = data.vaccination_by_gender
+    if (response.ok === true) {
+      this.setState({
+        vaccinCoverage: vaccinationCoverage,
+        vaccinByAge: vaccinationByAge,
+        vaccinByGender: vaccinationByGender,
+        apiStatus: status.success,
+      })
+    } else {
+      this.setState({apiStatus: status.failure})
+    }
+  }
 
-    this.setState({
-      vaccinCoverage: vaccinationCoverage,
-      vaccinByAge: vaccinationByAge,
-      vaccinByGender: vaccinationByGender,
-      isLoading: false,
-    })
+  loadingView = () => (
+    <div className="loader" data-testid="loader">
+      <Loader type="ThreeDots" />
+    </div>
+  )
+
+  successView = () => {
+    const {vaccinCoverage, vaccinByGender, vaccinByAge} = this.state
+    return (
+      <div>
+        <VaccinationCoverage vaccinData={vaccinCoverage} />
+        <VaccinationByGender genderData={vaccinByGender} />
+        <VaccinationByAge ageData={vaccinByAge} />
+      </div>
+    )
+  }
+
+  failureView = () => (
+    <div className="failure">
+      <img
+        src="https://assets.ccbp.in/frontend/react-js/api-failure-view.png "
+        alt="failure view"
+      />
+      <h1>Page Not Found</h1>
+    </div>
+  )
+
+  getResults = () => {
+    const {apiStatus} = this.state
+    switch (apiStatus) {
+      case status.success:
+        return this.successView()
+      case status.failure:
+        return this.failureView()
+      case status.inProgress:
+        return this.loadingView()
+      default:
+        return null
+    }
   }
 
   render() {
-    const {vaccinByAge, vaccinByGender, vaccinCoverage, isLoading} = this.state
     return (
       <div className="bg">
         <div className="fkljads">
@@ -52,18 +100,7 @@ class CowinDashboard extends Component {
           <p>Co-Win</p>
         </div>
         <h1>Cowin Vaccination in india</h1>
-        <p className="p">Vaccination Coverage</p>
-        {isLoading ? (
-          <div className="loader">
-            <Loader type="ThreeDots" />
-          </div>
-        ) : (
-          <div>
-            <VaccinationCoverage vaccinData={vaccinCoverage} />
-            <VaccinationByAge ageData={vaccinByAge} />
-            <VaccinationByGender genderData={vaccinByGender} />
-          </div>
-        )}
+        {this.getResults()}
       </div>
     )
   }

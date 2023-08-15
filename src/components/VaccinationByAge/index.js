@@ -5,6 +5,7 @@ const VaccinationByAge = props => {
   const {ageData} = props
   return (
     <div>
+      <h1>Vaccination by age</h1>
       <PieChart>
         <Pie
           cx="70%"
