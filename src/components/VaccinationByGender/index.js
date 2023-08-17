@@ -5,10 +5,10 @@ const VaccinationByGender = props => {
   const {genderData} = props
 
   return (
-    <div>
+    <div className="age-bg">
       <h1>Vaccination by gender</h1>
 
-      <PieChart>
+      <PieChart height={200} width={400}>
         <Pie
           cx="70%"
           cy="40%"
@@ -19,8 +19,9 @@ const VaccinationByGender = props => {
           outerRadius="70%"
           dataKey="count"
         >
-          <Cell name="gender" fill="#b3d23f" />
-          <Cell name="count" fill="#a44c9e" />
+          <Cell name="Male" fill=" #f54394" />
+          <Cell name="Female" fill="#5a8dee" />
+          <Cell name="Others" fill="#2cc6c6" />
         </Pie>
         <Legend
           iconType="circle"

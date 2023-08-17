@@ -31,10 +31,10 @@ class CowinDashboard extends Component {
 
     const response = await fetch(vaccinationDataApiUrl, options)
     const data = await response.json()
-    const vaccinationCoverage = data.last_7_days_vaccination
-    const vaccinationByAge = data.vaccination_by_age
-    const vaccinationByGender = data.vaccination_by_gender
     if (response.ok === true) {
+      const vaccinationCoverage = data.last_7_days_vaccination
+      const vaccinationByAge = data.vaccination_by_age
+      const vaccinationByGender = data.vaccination_by_gender
       this.setState({
         vaccinCoverage: vaccinationCoverage,
         vaccinByAge: vaccinationByAge,
@@ -69,7 +69,7 @@ class CowinDashboard extends Component {
         src="https://assets.ccbp.in/frontend/react-js/api-failure-view.png "
         alt="failure view"
       />
-      <h1>Page Not Found</h1>
+      <h1>Something went wrong</h1>
     </div>
   )
 

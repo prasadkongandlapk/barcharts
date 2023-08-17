@@ -11,20 +11,20 @@ const VaccinationCoverage = props => {
     return number.toString()
   }
   return (
-    <div>
-      <h1>Vaccination coverage</h1>
-      <BarChart data={vaccinData} width={1000} height={300} margin={{top: 5}}>
+    <div className="age-bg">
+      <h1>Vaccination Coverage</h1>
+      <BarChart data={vaccinData} width={800} height={300} margin={{top: 5}}>
         <XAxis
-          dataKey="vaccination_date"
-          tick={{stroke: 'gray', strokeWidth: 1}}
+          dataKey="vaccine_date"
+          tick={{stroke: 'gray', strokeWidth: 0.5}}
         />
         <YAxis
           tickFormatter={DataFormatter}
           tick={{stroke: 'gray', strokeWidth: 0}}
         />
         <Legend wrapperStyle={{padding: 30}} />
-        <Bar dataKey="dose_1" name="dose_1" fill="#1f77b4" barSize="20%" />
-        <Bar dataKey="dose_2" name="dose_2" fill="#fd7f0e" barSize="20%" />
+        <Bar dataKey="dose_1" name="dose_1" fill="#5a8dee" barSize="20%" />
+        <Bar dataKey="dose_2" name="dose_2" fill="#f54394" barSize="20%" />
       </BarChart>
     </div>
   )
